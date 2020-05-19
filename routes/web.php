@@ -12,6 +12,16 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get('/', function () {
+    return redirect('storage');
+});
+Route::get('storage', 'StorageController@index');
+Route::get('storage/create', 'StorageController@create');
+Route::get('storage/storing', 'StorageController@showStoring');
+Route::post('storage/storing', 'StorageController@store');
+Route::post('storage/leaving/{product_no}', 'StorageController@postLeaving');
+Route::post('storage/storing/commit', 'StorageController@postStoring');
 
-Route::resource('storage', 'StorageController');
-Route::resource('storing', 'StoringController');
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');

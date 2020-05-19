@@ -15,15 +15,17 @@ class CreateStoragesTable extends Migration
     {
         Schema::create('t_leavings', function (Blueprint $table) {
             $table->increments('seq_no');
+            $table->boolean('credit_note');          
             $table->integer('stock_no');
             $table->integer('product_no');
             $table->integer('selling');
+            $table->integer('cnt');
             $table->timestamps();            
         });  
 
         Schema::create('t_stocks', function (Blueprint $table) {
             $table->integer('stock_no');
-            $table->integer('stock_category_no');
+            $table->integer('category');
             $table->integer('product_no')->nullable();
             $table->integer('product_category')->nullable();
             $table->integer('cost');

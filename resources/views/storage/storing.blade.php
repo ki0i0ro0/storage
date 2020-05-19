@@ -22,21 +22,20 @@
         <td>{{ $data->product_name }}</td>
         <td>{{ $data->cnt }}</td>
         <td>
-          <form action="/storing" method="post">
+          <form action="/storing/delete" method="post">
             <input type="hidden" name="_method" value="DELETE">
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
-            <button type="submit" class="btn btn-xs btn-danger" aria-label="Left Align"><span class="glyphicon glyphicon-trash"></span></button>
+            <button type="submit" class="btn btn-danger" aria-label="Left Align">削除</button>
           </form>
         </td>
       </tr>
       @endforeach
     </table>
-    <form action="/storing" method="post">
+    <form action="storing/commit" method="post">
         <input type="hidden" name="_token" value="{{ csrf_token() }}">
-        <button type="submit" class="btn btn-default">登録</button>
+        <button type="submit" class="btn btn-primary">入庫確定実行</button>
     </form>        
-    <div><a href="/home" class="btn btn-default">もどる</a></div>
-
+    <div><a href="/storage" class="btn btn-danger">戻る</a></div>
 </div>
 </div>
 @endsection

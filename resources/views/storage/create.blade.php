@@ -1,4 +1,4 @@
 @extends('storage/layout')
 @section('content')
-@include('storage/form', ['target' => 'store'])
+@include('storage/form')
 @endsection
