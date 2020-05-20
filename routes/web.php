@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -12,6 +11,7 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
 Route::get('/', function () {
     return redirect('storage');
 });
@@ -22,6 +22,3 @@ Route::post('storage/storing', 'StorageController@store');
 Route::post('storage/leaving/{product_no}', 'StorageController@postLeaving');
 Route::post('storage/storing/commit', 'StorageController@postStoring');
 
-Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');

@@ -7,16 +7,6 @@ use Illuminate\Foundation\Http\FormRequest;
 class storageRequest extends FormRequest
 {
     /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-    *public function authorize()
-    *{
-    *    return false;
-    *}
-     */
-
-    /**
      * Get the validation rules that apply to the request.
      *
      * @return array
@@ -26,6 +16,23 @@ class storageRequest extends FormRequest
         return [
             'cnt' => 'required|integer',
             'selling' => 'required|integer',
+        ];
+    }
+}
+
+class storingRequest extends FormRequest
+{
+    /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array
+     */
+    public function rules()
+    {
+        return [
+            'product_no' => 'required|integer',
+            'cnt' => 'required|integer',
+            'cost' => 'required|integer',
         ];
     }
 }

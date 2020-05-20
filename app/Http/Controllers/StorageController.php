@@ -8,6 +8,7 @@ use App\t_storing;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Http\Requests\storageRequest;
+use App\Http\Requests\storingRequest;
 
 class StorageController extends Controller
 {
@@ -19,9 +20,12 @@ class StorageController extends Controller
     {
         //商品毎の在庫合計数量を表示
         $dataList = DB::table('t_stocks')
-            ->select(DB::raw('t_stocks.product_no, m_products.product_name as product_name ,count(*) as stock_cnt ,avg(t_stocks.cost) as cost,avg(t_stocks.selling) as selling,avg(t_stocks.profit) as profit'))
+            ->select(DB::raw('t_stocks.product_no, m_products.product_name as product_name 
+                ,count(*) - count(t_stocks.selling > 0) as stock_cnt 
+                ,avg(t_stocks.cost) as cost
+                ,avg(t_stocks.selling) as selling
+                ,avg(t_stocks.selling) - avg(t_stocks.cost) as profit'))
             ->leftJoin('m_products', 'm_products.product_no', '=', 't_stocks.product_no')
-            ->where('t_stocks.stock_category', '=', 1)
             ->groupBy('t_stocks.product_no', 'm_products.product_name')
             ->get();
         return view('storage/index', compact('dataList'));
@@ -68,7 +72,6 @@ class StorageController extends Controller
             $stockData->stock_no = $cnt;
             $stockData->cost = $value->cost;
             $stockData->product_no = $value->product_no;
-            $stockData->stock_category = 1;
             $stockData->save();
 
             //在庫登録した入庫明細に在庫番号を付番
@@ -102,10 +105,16 @@ class StorageController extends Controller
      * @param storageRequest $request
      * @param int $product_no 商品番号
      */
-    public function postLeaving(storageRequest $request, $product_no)
+    public function postLeaving(Request $request, $product_no)
     {
-        $StockData = t_stock::where('product_no', $product_no)->orderBy('stock_no')->get();
+        $StockData = t_stock::where('product_no', $product_no)
+            ->where('selling', null)
+            ->orderBy('stock_no')->get();
         $leavingCnt = $request->cnt;
+
+        if ($leavingCnt>$StockData->count()) {
+            return redirect("storage");
+        }
 
         foreach ($StockData as $value) {
             $leavingData = new t_leaving();
@@ -113,7 +122,9 @@ class StorageController extends Controller
             $leavingData->product_no = $value->product_no;
             $leavingData->selling = $request->selling;
             $leavingData->save();
-
+            
+            //在庫登録した入庫明細に在庫番号を付番
+            DB::update('update t_stocks set selling = ? where stock_no = ?', [$request->selling, $value->stock_no]);
             $leavingCnt--;
 
             if ($leavingCnt < 1) {
