@@ -10,8 +10,13 @@ use Illuminate\Http\Request;
 use App\Http\Requests\storageRequest;
 use App\Http\Requests\storingRequest;
 
+
 class StorageController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     /**
      * 初期画面
      * @access public
