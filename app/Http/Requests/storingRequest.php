@@ -4,8 +4,9 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class storageRequest extends FormRequest
+class storingRequest extends FormRequest
 {
+
     /**
      * Get the validation rules that apply to the request.
      *
@@ -14,8 +15,10 @@ class storageRequest extends FormRequest
     public function rules()
     {
         return [
+            //
+            'product_no' => 'required|integer',
             'cnt' => 'required|integer',
-            'selling' => 'required|integer',
+            'cost' => 'required|integer',
         ];
     }
 }

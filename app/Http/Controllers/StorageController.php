@@ -45,7 +45,7 @@ class StorageController extends Controller
      * @access public
      * @param Request $request
      */
-    public function store(Request $request)
+    public function store(storingRequest $request)
     {
         for ($i = 0; $i < $request->cnt; $i++) {
             $storingData = new t_storing();
@@ -105,7 +105,7 @@ class StorageController extends Controller
      * @param storageRequest $request
      * @param int $product_no 商品番号
      */
-    public function postLeaving(Request $request, $product_no)
+    public function postLeaving(storageRequest $request, $product_no)
     {
         $StockData = t_stock::where('product_no', $product_no)
             ->where('selling', null)
