@@ -7,7 +7,7 @@ use Illuminate\Foundation\Http\FormRequest;
 class storageRequest extends FormRequest
 {
     /**
-     * Get the validation rules that apply to the request.
+     * 出庫時の入力チェック
      *
      * @return array
      */

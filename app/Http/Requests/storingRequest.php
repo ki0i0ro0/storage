@@ -8,7 +8,7 @@ class storingRequest extends FormRequest
 {
 
     /**
-     * Get the validation rules that apply to the request.
+     * 仮入庫じの入力チェック
      *
      * @return array
      */
